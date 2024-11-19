@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Gestión de Inventario</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .formulario {
+            display: none; /* Asegura que están ocultos por defecto */
+        }
+        .critico {
+            background-color: #f8d7da; /* Color para productos con stock crítico */
+        }
+        #menu button {
+            margin: 5px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -17,7 +28,7 @@
         </div>
 
         <!-- Formulario de Registro -->
-        <div id="formularioRegistrar" class="formulario" style="display:none;">
+        <div id="formularioRegistrar" class="formulario">
             <h2>Registrar Producto</h2>
             <input type="text" id="nombre" placeholder="Nombre del producto">
             <input type="number" id="precio" placeholder="Precio del producto">
@@ -28,7 +39,7 @@
         </div>
 
         <!-- Tabla de productos -->
-        <div id="tablaProductos" class="formulario" style="display:none;">
+        <div id="tablaProductos" class="formulario">
             <h2>Consultar Productos</h2>
             <table id="productosTable">
                 <thead>
@@ -46,9 +57,7 @@
             </table>
             <button onclick="cerrarFormulario()">Cerrar</button>
         </div>
-
     </div>
     <script src="script.js"></script>
 </body>
 </html>
-

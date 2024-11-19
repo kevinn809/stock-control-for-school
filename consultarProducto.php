@@ -1,11 +1,13 @@
 <?php
-header('Content-Type: application/json'); // Asegura que la respuesta sea JSON
+header('Content-Type: application/json');
 
+// Configuración de la base de datos
 $host = 'localhost';
 $user = 'root';
-$password = 'password'; // Cambia 'password' por tu contraseña real
+$password = ''; 
 $db = 'inventario';
 
+// Crear conexión
 $conn = new mysqli($host, $user, $password, $db);
 
 // Verifica la conexión
@@ -14,25 +16,19 @@ if ($conn->connect_error) {
     exit;
 }
 
-// Obtén los datos enviados desde JavaScript
-$nombre = $_POST['nombre'] ?? '';
-$precio = $_POST['precio'] ?? 0;
-$cantidad = $_POST['cantidad'] ?? 0;
-$stockCritico = $_POST['stockCritico'] ?? 0;
+// Consulta para obtener los productos de la tabla "productos"
+$sql = "SELECT id, nombre, precio, cantidad, stockCritico FROM productos";
+$result = $conn->query($sql);
 
-// Verifica que los campos requeridos no estén vacíos
-if (empty($nombre) || $precio <= 0 || $cantidad < 0 || $stockCritico < 0) {
-    echo json_encode(['message' => 'Todos los campos son obligatorios y deben tener valores válidos']);
-    exit;
-}
-
-// Inserta los datos en la base de datos
-$sql = "INSERT INTO inventario (nombre, precio, cantidad, stockCritico) VALUES ('$nombre', $precio, $cantidad, $stockCritico)";
-
-if ($conn->query($sql) === TRUE) {
-    echo json_encode(['message' => 'Producto registrado exitosamente']);
+// Verifica si hay resultados
+if ($result->num_rows > 0) {
+    $productos = [];
+    while ($row = $result->fetch_assoc()) {
+        $productos[] = $row;
+    }
+    echo json_encode(['productos' => $productos]);
 } else {
-    echo json_encode(['message' => 'Error al registrar producto: ' . $conn->error]);
+    echo json_encode(['productos' => []]); // Retorna una lista vacía si no hay productos
 }
 
 $conn->close();
