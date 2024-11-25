@@ -1,39 +1,42 @@
 <?php
+header('Content-Type: application/json');
+
+// Verificar qué datos se están recibiendo
+var_dump($_POST); // Ver las variables que se están recibiendo
 
 // Configuración de la base de datos
-$server = "localhost"; // Servidor
-$user = "root";        // Usuario de la base de datos
-$password = "";        // Contraseña de la base de datos
-$db = "inventario";    // Nombre de la base de datos
+$host = 'localhost';
+$user = 'root';
+$password = '';
+$db = 'stockControl';
 
 // Crear conexión
-$conexion = new mysqli($server, $user, $password, $db);
+$conn = new mysqli($host, $user, $password, $db);
 
-// Verificar la conexión
-if ($conexion->connect_error) {
-    die(json_encode(['message' => 'Conexión fallida: ' . $conexion->connect_error]));
-}
-
-// Recibir datos del formulario
-$name = isset($_POST['nombre']) ? $conexion->real_escape_string($_POST['nombre']) : null;
-$precio = isset($_POST['precio']) ? $conexion->real_escape_string($_POST['precio']) : null;
-$cantidad = isset($_POST['cantidad']) ? $conexion->real_escape_string($_POST['cantidad']) : null;
-$stockCritico = isset($_POST['stockCritico']) ? $conexion->real_escape_string($_POST['stockCritico']) : null;
-
-// Validar datos
-if (!$name || !$precio || !$cantidad || !$stockCritico) {
-    echo json_encode(['message' => 'Por favor, complete todos los campos.']);
+// Verifica la conexión
+if ($conn->connect_error) {
+    echo json_encode(['message' => 'Error de conexión: ' . $conn->connect_error]);
     exit;
 }
 
-// Preparar y ejecutar la consulta para la tabla 'productos'
-$sql = "INSERT INTO productos (nombre, precio, cantidad, stockCritico) VALUES ('$name', '$precio', '$cantidad', '$stockCritico')";
-if ($conexion->query($sql) === TRUE) {
-    echo json_encode(['message' => 'Producto registrado exitosamente']);
-} else {
-    echo json_encode(['message' => 'Error al registrar producto: ' . $conexion->error]);
+// Verifica los datos enviados
+if (!isset($_POST['nombre']) || !isset($_POST['precio']) || !isset($_POST['cantidad']) || !isset($_POST['stockCritico'])) {
+    echo json_encode(['message' => 'Datos incompletos']);
+    exit;
 }
 
-// Cerrar conexión
-$conexion->close();
+$nombre = $conn->real_escape_string($_POST['nombre']);
+$precio = $conn->real_escape_string($_POST['precio']);
+$cantidad = $conn->real_escape_string($_POST['cantidad']);
+$stockCritico = $conn->real_escape_string($_POST['stockCritico']);
+
+// Inserta el producto
+$sql = "INSERT INTO productos (nombre, precio, cantidad, stockCritico) VALUES ('$nombre', '$precio', '$cantidad', '$stockCritico')";
+if ($conn->query($sql) === TRUE) {
+    echo json_encode(['message' => 'Producto registrado exitosamente']);
+} else {
+    echo json_encode(['message' => 'Error al registrar el producto: ' . $conn->error]);
+}
+
+$conn->close();
 ?>

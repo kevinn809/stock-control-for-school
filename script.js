@@ -74,5 +74,22 @@ function consultarProductos() {
 
 // Función para generar reporte (simulando en este caso)
 function generarReporte() {
-    alert("Reporte generado exitosamente (simulado).");
+    print("");
 }
+
+// Función para eliminar un producto
+function eliminarProducto() {
+    let deletProductID = prompt("Ingrese el ID del producto que desea eliminar:");
+    if (deletProductID) {
+        fetch('eliminarProducto.php', {
+            method: 'POST',
+            body: new URLSearchParams({ 'ID': deletProductID })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            consultarProductos(); // Actualiza la tabla después de eliminar
+        });
+    }
+}
+

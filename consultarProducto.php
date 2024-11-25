@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 $host = 'localhost';
 $user = 'root';
 $password = ''; 
-$db = 'inventario';
+$db = 'stockControl';
 
 // Crear conexión
 $conn = new mysqli($host, $user, $password, $db);
