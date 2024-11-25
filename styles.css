@@ -49,7 +49,8 @@ th, td {
     border: 1px solid #ddd;
 }
 
-formulario {
+
+.formulario {
     display: none;
 }
 
@@ -58,6 +59,6 @@ formulario {
 }
 
 #tablaProductos tbody tr.critico {
-    background-color: red;
+    background-color: rgb(255, 0, 0);
     color: white;
 }

@@ -10,7 +10,7 @@
             display: none; /* Asegura que están ocultos por defecto */
         }
         .critico {
-            background-color: #f8d7da; /* Color para productos con stock crítico */
+            background-color: #ffffff; /* Color para productos con stock crítico */
         }
         #menu button {
             margin: 5px;
@@ -24,6 +24,7 @@
         <div id="menu">
             <button onclick="mostrarFormulario('registrar')">Registrar Producto</button>
             <button onclick="mostrarFormulario('consultar')">Consultar Productos</button>
+            <button onclick="eliminarProducto()">Eliminar Producto</button>
             <button onclick="generarReporte()">Generar Reporte</button>
         </div>
 

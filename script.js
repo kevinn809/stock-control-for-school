@@ -93,3 +93,4 @@ function eliminarProducto() {
     }
 }
 
+alert("hola")
